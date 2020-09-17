@@ -75,10 +75,10 @@ namespace UserApi
         /// <returns></returns>
         private static async Task<CosmosDbService> InitializeCosmosClientInstanceAsync(IConfigurationSection configurationSection)
         {
-            string databaseName = configurationSection.GetSection("DatabaseName").Value;
-            string containerName = configurationSection.GetSection("ContainerName").Value;
-            string account = configurationSection.GetSection("Account").Value;
-            string key = configurationSection.GetSection("Key").Value;
+            string databaseName = Environment.GetEnvironmentVariable("DATABASE_NAME"); // configurationSection.GetSection("DatabaseName").Value;
+            string containerName = Environment.GetEnvironmentVariable("CONTAINER_NAME"); // configurationSection.GetSection("ContainerName").Value;
+            string account = Environment.GetEnvironmentVariable("ACCOUNT"); // configurationSection.GetSection("Account").Value;
+            string key = Environment.GetEnvironmentVariable("COSMOS_DB_KEY"); // configurationSection.GetSection("Key").Value;
             Microsoft.Azure.Cosmos.CosmosClient client = new Microsoft.Azure.Cosmos.CosmosClient(account, key);
             CosmosDbService cosmosDbService = new CosmosDbService(client, databaseName, containerName);
             Microsoft.Azure.Cosmos.DatabaseResponse database = await client.CreateDatabaseIfNotExistsAsync(databaseName);
